@@ -1,3 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    html, body {
+        @apply bg-neutral-100;
+    }
+}
+
+.shadow-freya {
+    box-shadow: 0 0 30px rgba(0,0,0,.1);
+}
