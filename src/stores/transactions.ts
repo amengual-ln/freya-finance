@@ -24,6 +24,10 @@ export const useTransactions = create<TransactionState>()(set => ({
         set((state) => ({
             transactions: [...state.transactions, transaction]
         }))
-        const { error } = await supabase.from('transactions').insert(transaction)
+        const newTransaction = {
+            ...transaction,
+            id: transaction.id || ''
+        }
+        const { error } = await supabase.from('transactions').insert(newTransaction)
     }
 }))
