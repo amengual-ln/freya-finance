@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { Transaction } from '../types/Transaction'
 import supabase from '../database'
+import dayjs from 'dayjs'
 
 interface TransactionState {
     transactions: Transaction[],
@@ -21,13 +22,21 @@ export const useTransactions = create<TransactionState>()(set => ({
         })
     },
     addTransaction: async (transaction: Transaction) => {
-        set((state) => ({
-            transactions: [...state.transactions, transaction]
-        }))
+        const rawDate = transaction.created_at?.split('/')
+
+        const created_at = rawDate ? dayjs(`${rawDate[1]}/${rawDate[0]}/${rawDate[2]}`).toISOString() : dayjs().toISOString()
+
+        console.log(created_at)
+
         const newTransaction = {
             ...transaction,
+            created_at,
             id: transaction.id || ''
         }
+        set((state) => ({
+            transactions: [newTransaction, ...state.transactions]
+        }))
+
         const { error } = await supabase.from('transactions').insert(newTransaction)
     }
 }))

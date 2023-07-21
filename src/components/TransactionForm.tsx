@@ -18,7 +18,6 @@ export const TransactionForm = ({ type, handleClose }: props) => {
     const addTransaction = useTransactions(state => state.addTransaction)
 
     const onSubmit = handleSubmit(data => {
-        console.log('sending')
         const newTransaction: Transaction = {
             ...data,
             type,
