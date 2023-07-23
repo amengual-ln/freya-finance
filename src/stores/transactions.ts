@@ -6,7 +6,7 @@ import dayjs from 'dayjs'
 interface TransactionState {
     transactions: Transaction[],
     balance: Number,
-    fetchTransactions: (limit: number) => void,
+    fetchTransactions: (limit?: number) => void,
     addTransaction: (transaction: Transaction) => void,
     getBalance: () => void
 }
@@ -14,8 +14,8 @@ interface TransactionState {
 export const useTransactions = create<TransactionState>()(set => ({
     transactions: [],
     balance: 0,
-    fetchTransactions: async (limit: number = 10) => {
-        const { data: transactions, error } = await supabase.from('transactions').select().limit(limit).order('created_at', { ascending: false })
+    fetchTransactions: async (limit?) => {
+        const { data: transactions, error } = await supabase.from('transactions').select().order('created_at', { ascending: false })
         const fetchedTransactions = transactions?.map(transaction => {
             return transaction as Transaction
         })

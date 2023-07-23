@@ -1,6 +1,7 @@
 import { TransactionItem } from './TransactionItem'
 import { useTransactions } from '../stores/transactions'
 import { Transaction } from '../types/Transaction'
+import { Link } from 'react-router-dom'
 
 export const LatestTransactions = () => {
     const transactions = useTransactions(state => state.transactions)
@@ -16,7 +17,7 @@ export const LatestTransactions = () => {
                 </ul>
             </article>
             <div className="flex justify-center border-t bg-gray-50 rounded-b-2xl">
-                <button className="p-3 w-full">Ver más</button>
+                <Link to="/transactions" className="p-3 w-full text-center">Ver más</Link>
             </div>
         </article>
     )

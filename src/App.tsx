@@ -13,7 +13,7 @@ function App() {
   const getBalance = useTransactions(state => state.getBalance)
 
   useEffect(() => {
-    fetchTransactions(5)
+    fetchTransactions()
     getBalance()
   }, [])
 
