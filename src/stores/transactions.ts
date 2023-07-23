@@ -5,14 +5,16 @@ import dayjs from 'dayjs'
 
 interface TransactionState {
     transactions: Transaction[],
+    balance: Number,
     fetchTransactions: (limit: number) => void,
-    addTransaction: (transaction: Transaction) => void
+    addTransaction: (transaction: Transaction) => void,
+    getBalance: () => void
 }
 
 export const useTransactions = create<TransactionState>()(set => ({
     transactions: [],
+    balance: 0,
     fetchTransactions: async (limit: number = 10) => {
-        console.log('fetching transactions')
         const { data: transactions, error } = await supabase.from('transactions').select().limit(limit).order('created_at', { ascending: false })
         const fetchedTransactions = transactions?.map(transaction => {
             return transaction as Transaction
@@ -22,11 +24,9 @@ export const useTransactions = create<TransactionState>()(set => ({
         })
     },
     addTransaction: async (transaction: Transaction) => {
-        const rawDate = transaction.created_at?.split('/')
+        const rawDate = transaction.created_at ? transaction.created_at.split('/') : null
 
-        const created_at = rawDate ? dayjs(`${rawDate[1]}/${rawDate[0]}/${rawDate[2]}`).toISOString() : dayjs().toISOString()
-
-        console.log(created_at)
+        const created_at = rawDate ? dayjs(`${rawDate[2]}/${rawDate[1]}/${rawDate[0]}`).toISOString() : dayjs().toISOString()
 
         const newTransaction = {
             ...transaction,
@@ -38,5 +38,19 @@ export const useTransactions = create<TransactionState>()(set => ({
         }))
 
         const { error } = await supabase.from('transactions').insert(newTransaction)
+    },
+    getBalance: async () => {
+        const { data: amounts } = await supabase.from('transactions').select('type, amount')
+
+        const balance = amounts?.reduce((total, transaction) => {
+            if (transaction.type === 'income') {
+                return total += transaction.amount
+            } else {
+                return total -= transaction.amount
+            }
+        }, 0)
+        set(() => ({
+            balance: balance
+        }))
     }
 }))

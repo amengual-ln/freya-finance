@@ -1,7 +1,6 @@
 import { TransactionItem } from './TransactionItem'
 import { useTransactions } from '../stores/transactions'
 import { Transaction } from '../types/Transaction'
-import dayjs from 'dayjs'
 
 export const LatestTransactions = () => {
     const transactions = useTransactions(state => state.transactions)
