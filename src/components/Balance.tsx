@@ -6,7 +6,7 @@ export const Balance = () => {
     return (
         <section className="flex justify-center">
             <div className="justify-self-auto p-4 text-2xl"><span className='opacity-75 text-lg'>$</span>
-                {balance.toString()}
+                {balance.toFixed(2).toString()}
             </div>
         </section>
     )
