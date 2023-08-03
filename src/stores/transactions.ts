@@ -5,7 +5,7 @@ import dayjs from 'dayjs'
 
 interface TransactionState {
     transactions: Transaction[],
-    balance: Number,
+    balance: number,
     fetchTransactions: (limit?: number) => void,
     addTransaction: (transaction: Transaction) => void,
     getBalance: () => void
