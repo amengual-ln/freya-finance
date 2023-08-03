@@ -11,7 +11,7 @@ export const TransactionItem = ({ transaction }: props) => {
             <span>{transaction.description}</span>
             <div className="flex flex-col text-end">
                 <pre className={`${transaction.type === "income" ? 'text-green-400' : transaction.type === "investment" ? 'text-yellow-400' : 'text-red-400'}`}>
-                    <>${transaction.amount}</>
+                    <>${new Intl.NumberFormat("de-DE").format(transaction.amount)}</>
                 </pre>
                 <pre className='text-sm opacity-25'>{dayjs(transaction.created_at).format("DD/MM/YYYY")}</pre>
             </div>
