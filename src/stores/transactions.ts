@@ -28,7 +28,7 @@ export const useTransactions = create<TransactionState>()(set => ({
 
         const created_at = rawDate ? dayjs(`${rawDate[2]}/${rawDate[1]}/${rawDate[0]}`).toISOString() : dayjs().toISOString()
 
-        transaction.amount = transaction.amount.replace('.', '').replace('$', '')
+        transaction.amount = Number(transaction.amount.toString().replace('.', '').replace('$', ''))
 
         const newTransaction = {
             ...transaction,
