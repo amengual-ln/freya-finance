@@ -11,6 +11,7 @@ function App() {
   const [transactionType, setTransactionType] = useState<'expense' | 'income' | 'investment'>('expense')
   const fetchTransactions = useTransactions(state => state.fetchTransactions)
   const getBalance = useTransactions(state => state.getBalance)
+  const transactions = useTransactions(state => state.transactions)
 
   useEffect(() => {
     fetchTransactions()
